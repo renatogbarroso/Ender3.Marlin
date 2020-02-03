@@ -86,13 +86,13 @@
  */
 
 // Show the Marlin bootscreen on startup. ** ENABLE FOR PRODUCTION **
-#define SHOW_BOOTSCREEN
+//#define SHOW_BOOTSCREEN
 
 // Show the bitmap in Marlin/_Bootscreen.h on startup.
-#define SHOW_CUSTOM_BOOTSCREEN
+//#define SHOW_CUSTOM_BOOTSCREEN
 
 // Show the bitmap in Marlin/_Statusscreen.h on the status screen.
-#define CUSTOM_STATUS_SCREEN_IMAGE
+//#define   
 
 // @section machine
 
@@ -850,7 +850,7 @@
  * Use G29 repeatedly, adjusting the Z height at each point with movement commands
  * or (with LCD_BED_LEVELING) the LCD controller.
  */
-#define PROBE_MANUALLY
+//#define PROBE_MANUALLY
 //#define MANUAL_PROBE_START_Z 0.2
 
 /**
@@ -868,8 +868,11 @@
 /**
  * Z Servo Probe, such as an endstop switch on a rotating arm.
  */
-//#define Z_PROBE_SERVO_NR 0       // Defaults to SERVO 0 connector.
-//#define Z_SERVO_ANGLES { 70, 0 } // Z Servo Deploy and Stow angles
+#define Z_PROBE_SERVO_NR 0       // Defaults to SERVO 0 connector.
+#define Z_SERVO_ANGLES { 168, 90 } // Z Servo Deploy and Stow angles
+
+#define SERVO0_PIN 29
+
 
 /**
  * The BLTouch probe uses a Hall effect sensor and emulates a servo.
@@ -931,7 +934,7 @@
  *
  * Specify a Probe position as { X, Y, Z }
  */
-#define NOZZLE_TO_PROBE_OFFSET { 10, 10, 0 }
+#define NOZZLE_TO_PROBE_OFFSET { -38, -9, -1 }
 
 // Certain types of probes need to stay away from edges
 #define MIN_PROBE_EDGE 10
@@ -971,19 +974,19 @@
  * Example: `M851 Z-5` with a CLEARANCE of 4  =>  9mm from bed to nozzle.
  *     But: `M851 Z+1` with a CLEARANCE of 2  =>  2mm from bed to nozzle.
  */
-#define Z_CLEARANCE_DEPLOY_PROBE   10 // Z Clearance for Deploy/Stow
-#define Z_CLEARANCE_BETWEEN_PROBES  5 // Z Clearance between probe points
+#define Z_CLEARANCE_DEPLOY_PROBE   6 // Z Clearance for Deploy/Stow
+#define Z_CLEARANCE_BETWEEN_PROBES  6 // Z Clearance between probe points
 #define Z_CLEARANCE_MULTI_PROBE     5 // Z Clearance between multiple probes
 //#define Z_AFTER_PROBING           5 // Z position after probing is done
 
-#define Z_PROBE_LOW_POINT          -2 // Farthest distance below the trigger-point to go before stopping
+#define Z_PROBE_LOW_POINT          -1 // Farthest distance below the trigger-point to go before stopping
 
 // For M851 give a range for adjusting the Z probe offset
 #define Z_PROBE_OFFSET_RANGE_MIN -20
 #define Z_PROBE_OFFSET_RANGE_MAX 20
 
 // Enable the M48 repeatability test to test probe accuracy
-//#define Z_MIN_PROBE_REPEATABILITY_TEST
+#define Z_MIN_PROBE_REPEATABILITY_TEST
 
 // Before deploy/stow pause for user confirmation
 //#define PAUSE_BEFORE_DEPLOY_STOW
@@ -1050,7 +1053,7 @@
 
 //#define UNKNOWN_Z_NO_RAISE // Don't raise Z (lower the bed) if Z is "unknown." For beds that fall when Z is powered off.
 
-//#define Z_HOMING_HEIGHT 4  // (mm) Minimal Z height before homing (G28) for Z clearance above the bed, clamps, ...
+#define Z_HOMING_HEIGHT 2  // (mm) Minimal Z height before homing (G28) for Z clearance above the bed, clamps, ...
                              // Be sure you have this distance over your Z_MAX_POS in case.
 
 // Direction of endstops when homing; 1=MAX, -1=MIN
@@ -1175,8 +1178,8 @@
 //#define AUTO_BED_LEVELING_3POINT
 //#define AUTO_BED_LEVELING_LINEAR
 //#define AUTO_BED_LEVELING_BILINEAR
-//#define AUTO_BED_LEVELING_UBL
-#define MESH_BED_LEVELING
+#define AUTO_BED_LEVELING_UBL
+//#define MESH_BED_LEVELING
 
 /**
  * Normally G28 leaves leveling disabled on completion. Enable
@@ -1189,7 +1192,7 @@
  * Turn on with the command 'M111 S32'.
  * NOTE: Requires a lot of PROGMEM!
  */
-//#define DEBUG_LEVELING_FEATURE
+#define DEBUG_LEVELING_FEATURE
 
 #if ANY(MESH_BED_LEVELING, AUTO_BED_LEVELING_BILINEAR, AUTO_BED_LEVELING_UBL)
   // Gradually reduce leveling correction until a set height is reached,
@@ -1206,11 +1209,11 @@
   /**
    * Enable the G26 Mesh Validation Pattern tool.
    */
-  //#define G26_MESH_VALIDATION
+  #define G26_MESH_VALIDATION
   #if ENABLED(G26_MESH_VALIDATION)
     #define MESH_TEST_NOZZLE_SIZE    0.4  // (mm) Diameter of primary nozzle.
     #define MESH_TEST_LAYER_HEIGHT   0.2  // (mm) Default layer height for the G26 Mesh Validation Tool.
-    #define MESH_TEST_HOTEND_TEMP  205    // (°C) Default nozzle temperature for the G26 Mesh Validation Tool.
+    #define MESH_TEST_HOTEND_TEMP  210    // (°C) Default nozzle temperature for the G26 Mesh Validation Tool.
     #define MESH_TEST_BED_TEMP      60    // (°C) Default bed temperature for the G26 Mesh Validation Tool.
     #define G26_XY_FEEDRATE         20    // (mm/s) Feedrate for XY Moves for the G26 Mesh Validation Tool.
   #endif
@@ -1220,7 +1223,7 @@
 #if EITHER(AUTO_BED_LEVELING_LINEAR, AUTO_BED_LEVELING_BILINEAR)
 
   // Set the number of grid points per dimension.
-  #define GRID_MAX_POINTS_X 5
+  #define GRID_MAX_POINTS_X 3
   #define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
 
   // Probe along the Y axis, advancing X after each column
@@ -1230,7 +1233,7 @@
 
     // Beyond the probed grid, continue the implied tilt?
     // Default is to maintain the height of the nearest edge.
-    //#define EXTRAPOLATE_BEYOND_GRID
+    #define EXTRAPOLATE_BEYOND_GRID
 
     //
     // Experimental Subdivision of the grid by Catmull-Rom method.
@@ -1269,7 +1272,7 @@
   //===========================================================================
 
   #define MESH_INSET 10          // Set Mesh bounds as an inset region of the bed
-  #define GRID_MAX_POINTS_X 4    // Don't use more than 7 points per axis, implementation limited.
+  #define GRID_MAX_POINTS_X 3    // Don't use more than 7 points per axis, implementation limited.
   #define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
 
   //#define MESH_G28_REST_ORIGIN // After homing all axes ('G28' or 'G28 XYZ') rest Z at Z_MIN_POS
@@ -1280,10 +1283,10 @@
  * Add a bed leveling sub-menu for ABL or MBL.
  * Include a guided procedure if manual probing is enabled.
  */
-#define LCD_BED_LEVELING
+//#define LCD_BED_LEVELING
 
 #if ENABLED(LCD_BED_LEVELING)
-  #define MESH_EDIT_Z_STEP  0.05 // (mm) Step size while manually probing Z axis.
+  #define MESH_EDIT_Z_STEP  0.025 // (mm) Step size while manually probing Z axis.
   #define LCD_PROBE_Z_RANGE 4     // (mm) Z Range centered on Z_MIN_POS for LCD Z adjustment
   //#define MESH_EDIT_MENU        // Add a menu to edit mesh points
 #endif
@@ -1297,6 +1300,13 @@
   #define LEVEL_CORNERS_HEIGHT 0.0  // (mm) Z height of nozzle at leveling points
   //#define LEVEL_CENTER_TOO        // Move to the center after the last corner
 #endif
+
+
+#define UBL_NO_MANUAL_PROBE
+#define UBL_NO_LCD_SUPPORT
+#define UBL_NO_J_MESH_TILTING
+#define UBL_NO_ WHAT_CMD
+
 
 /**
  * Commands to execute at the end of G29 probing.
@@ -1325,7 +1335,7 @@
 // - Move the Z probe (or nozzle) to a defined XY point before Z Homing when homing all axes (G28).
 // - Prevent Z homing when the Z probe is outside bed area.
 //
-//#define Z_SAFE_HOMING
+#define Z_SAFE_HOMING
 
 #if ENABLED(Z_SAFE_HOMING)
   #define Z_SAFE_HOMING_X_POINT ((X_BED_SIZE) / 2)    // X point for Z homing when homing all axes (G28).
@@ -1334,7 +1344,7 @@
 
 // Homing speeds (mm/m)
 #define HOMING_FEEDRATE_XY (20*60)
-#define HOMING_FEEDRATE_Z  (4*60)
+#define HOMING_FEEDRATE_Z  (6*60)
 
 // Validate that endstops are triggered on homing moves
 #define VALIDATE_HOMING_ENDSTOPS
@@ -1369,32 +1379,32 @@
  *    +-------------->X     +-------------->X     +-------------->Y
  *     XY_SKEW_FACTOR        XZ_SKEW_FACTOR        YZ_SKEW_FACTOR
  */
-////#define SKEW_CORRECTION
-//
-//#if ENABLED(SKEW_CORRECTION)
-//  // Input all length measurements here:
-//  #define XY_DIAG_AC 282.8427124746
-//  #define XY_DIAG_BD 282.8427124746
-//  #define XY_SIDE_AD 200
-//
-//  // Or, set the default skew factors directly here
-//  // to override the above measurements:
-//  #define XY_SKEW_FACTOR 0.0
-//
-//  //#define SKEW_CORRECTION_FOR_Z
-//  #if ENABLED(SKEW_CORRECTION_FOR_Z)
-//    #define XZ_DIAG_AC 282.8427124746
-//    #define XZ_DIAG_BD 282.8427124746
-//    #define YZ_DIAG_AC 282.8427124746
-//    #define YZ_DIAG_BD 282.8427124746
-//    #define YZ_SIDE_AD 200
-//    #define XZ_SKEW_FACTOR 0.0
-//    #define YZ_SKEW_FACTOR 0.0
-//  #endif
-//
-//  // Enable this option for M852 to set skew at runtime
-//  //#define SKEW_CORRECTION_GCODE
-//#endif
+//#define SKEW_CORRECTION
+
+#if ENABLED(SKEW_CORRECTION)
+  // Input all length measurements here:
+  #define XY_DIAG_AC 282.8427124746
+  #define XY_DIAG_BD 282.8427124746
+  #define XY_SIDE_AD 200
+
+  // Or, set the default skew factors directly here
+  // to override the above measurements:
+  #define XY_SKEW_FACTOR 0.0
+
+  //#define SKEW_CORRECTION_FOR_Z
+  #if ENABLED(SKEW_CORRECTION_FOR_Z)
+    #define XZ_DIAG_AC 282.8427124746
+    #define XZ_DIAG_BD 282.8427124746
+    #define YZ_DIAG_AC 282.8427124746
+    #define YZ_DIAG_BD 282.8427124746
+    #define YZ_SIDE_AD 200
+    #define XZ_SKEW_FACTOR 0.0
+    #define YZ_SKEW_FACTOR 0.0
+  #endif
+
+  // Enable this option for M852 to set skew at runtime
+  //#define SKEW_CORRECTION_GCODE
+#endif
 
 //=============================================================================
 //============================= Additional Features ===========================
@@ -1628,7 +1638,7 @@
  * you must uncomment the following option or it won't work.
  *
  */
-#define SDSUPPORT
+//#define SDSUPPORT
 
 /**
  * SD CARD: SPI SPEED
@@ -1716,7 +1726,7 @@
 // If you have a speaker that can produce tones, enable it here.
 // By default Marlin assumes you have a buzzer with a fixed frequency.
 //
-#define SPEAKER
+//#define SPEAKER
 
 //
 // The duration and frequency for the UI feedback sound.
@@ -1958,7 +1968,7 @@
 // This is RAMPS-compatible using a single 10-pin connector.
 // (For CR-10 owners who want to replace the Melzi Creality board but retain the display)
 //
-#define CR10_STOCKDISPLAY
+//#define CR10_STOCKDISPLAY
 
 //
 // ANET and Tronxy Graphical Controller
@@ -2207,15 +2217,15 @@
  * Set this manually if there are extra servos needing manual control.
  * Leave undefined or set to 0 to entirely disable the servo subsystem.
  */
-//#define NUM_SERVOS 3 // Servo index starts with 0 for M280 command
+#define NUM_SERVOS 1 // Servo index starts with 0 for M280 command
 
 // (ms) Delay  before the next move will start, to give the servo time to reach its target angle.
 // 300ms is a good value but you can try less delay.
 // If the servo can't reach the requested position, increase it.
-#define SERVO_DELAY { 300 }
+#define SERVO_DELAY { 1000 }
 
 // Only power servos during movement, otherwise leave off to prevent jitter
-//#define DEACTIVATE_SERVOS_AFTER_MOVE
+#define DEACTIVATE_SERVOS_AFTER_MOVE
 
 // Allow servo angle to be edited and saved to EEPROM
 //#define EDITABLE_SERVO_ANGLES
